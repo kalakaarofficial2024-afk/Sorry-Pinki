@@ -84,31 +84,22 @@ animation:floatUp 10s linear infinite;
 100%{transform:translateY(-10vh);opacity:0;}
 }
 
-function createShootingStar(){
+/* Shooting Star */
+.shoot{
+position:absolute;
+width:3px;
+height:150px;
+background:linear-gradient(white,transparent);
+opacity:0.8;
+animation:shooting 1.5s linear forwards;
+}
 
-let star=document.createElement("div");
-star.className="shoot";
-
-/* Always start from top-right area */
-let startX = window.innerWidth + Math.random()*200;  // little outside screen
-let startY = Math.random()*200;  // top area
-
-star.style.left = startX + "px";
-star.style.top = startY + "px";
-
-/* Always move to left-down */
-let moveX = - (window.innerWidth + 300);  
-let moveY = window.innerHeight + 300;
-
-star.style.setProperty('--x', moveX + "px");
-star.style.setProperty('--y', moveY + "px");
-
-/* Fixed diagonal angle */
-star.style.transform = "rotate(135deg)";
-
-document.body.appendChild(star);
-
-setTimeout(()=>star.remove(),1500);
+@keyframes shooting{
+0%{opacity:1;}
+100%{
+opacity:0;
+transform:translate(var(--x), var(--y));
+}
 }
 
 /* Sparkle Cursor */
@@ -178,7 +169,7 @@ white-space:pre-line;
 
 <script>
 
-/* After intro, enable background */
+/* Enable background after intro */
 setTimeout(()=>{
 document.body.classList.add("mainBg");
 },4000);
@@ -241,7 +232,7 @@ document.body.classList.add("pulseBg");
 let text="Pinki 💖\nMain dil se sorry hoon 🥺\nTum meri life ka best part ho ❤️";
 typeWriter(text,0);
 
-/* Multiple shooting stars */
+/* Shooting stars every 2 sec */
 setInterval(()=>{
 for(let i=0;i<4;i++){
 createShootingStar();
@@ -256,26 +247,32 @@ setTimeout(()=>typeWriter(text,i+1),50);
 }
 }
 
+/* FIXED DIRECTION SHOOTING STAR */
+/* Right Top ➜ Left Down */
 function createShootingStar(){
+
 let star=document.createElement("div");
 star.className="shoot";
 
-let startX=Math.random()*window.innerWidth;
-let startY=Math.random()*window.innerHeight;
+/* Start from right-top */
+let startX = window.innerWidth + Math.random()*200;
+let startY = Math.random()*200;
 
-star.style.left=startX+"px";
-star.style.top=startY+"px";
+star.style.left = startX + "px";
+star.style.top = startY + "px";
 
-let moveX=(Math.random()-0.5)*600;
-let moveY=(Math.random()-0.5)*600;
+/* Move to left-down */
+let moveX = - (window.innerWidth + 400);
+let moveY = window.innerHeight + 400;
 
-star.style.setProperty('--x',moveX+"px");
-star.style.setProperty('--y',moveY+"px");
+star.style.setProperty('--x', moveX + "px");
+star.style.setProperty('--y', moveY + "px");
 
-let angle=Math.atan2(moveY,moveX)*(180/Math.PI);
-star.style.transform=`rotate(${angle}deg)`;
+/* Perfect diagonal angle */
+star.style.transform = "rotate(135deg)";
 
 document.body.appendChild(star);
+
 setTimeout(()=>star.remove(),1500);
 }
 
