@@ -26,9 +26,9 @@ animation:heartPulse 4s infinite ease-in-out;
 }
 
 @keyframes heartPulse{
-0%{box-shadow:0 0 50px #ff4e88 inset;}
-50%{box-shadow:0 0 120px #ff1493 inset;}
-100%{box-shadow:0 0 50px #ff4e88 inset;}
+0%{box-shadow:0 0 40px #ff4e88 inset;}
+50%{box-shadow:0 0 100px #ff1493 inset;}
+100%{box-shadow:0 0 40px #ff4e88 inset;}
 }
 
 /* Stars */
@@ -45,19 +45,25 @@ from{opacity:0.3;}
 to{opacity:1;}
 }
 
-/* Shooting Star */
+/* Shooting Star (RIGHT → LEFT) */
 .shoot{
 position:absolute;
 width:3px;
-height:100px;
+height:120px;
 background:linear-gradient(white,transparent);
-transform:rotate(45deg);
-animation:shooting 1s linear forwards;
+transform:rotate(-45deg);
+animation:shooting 1.2s linear forwards;
 }
 
 @keyframes shooting{
-0%{opacity:1;transform:translate(0,0) rotate(45deg);}
-100%{opacity:0;transform:translate(400px,400px) rotate(45deg);}
+0%{
+opacity:1;
+transform:translate(0,0) rotate(-45deg);
+}
+100%{
+opacity:0;
+transform:translate(-400px,400px) rotate(-45deg);
+}
 }
 
 /* Sparkle Cursor */
@@ -137,13 +143,23 @@ let moveCount=0;
 let scale=1;
 
 function moveNo(){
+
 moveCount++;
+
+/* On 10th time replace NO with YES */
 if(moveCount>=10){
-document.getElementById("noBtn").style.display="none";
+let noBtn=document.getElementById("noBtn");
+noBtn.innerHTML="Yes 💕";
+noBtn.style.background="#ff4e88";
+noBtn.onclick=startLove;
+noBtn.onmouseover=null;
+noBtn.ontouchstart=null;
 return;
 }
+
 scale+=0.3;
 document.getElementById("yesBtn").style.transform=`scale(${scale})`;
+
 let btn=document.getElementById("noBtn");
 btn.style.left=Math.random()*80+"vw";
 btn.style.top=Math.random()*80+"vh";
@@ -152,23 +168,17 @@ btn.style.top=Math.random()*80+"vh";
 /* Yes Click */
 function startLove(){
 
-// Yes button hide
 document.getElementById("yesBtn").style.display="none";
 
-// Soft pink night mix
 document.body.style.background=
 "radial-gradient(circle at center,#1a0033 0%,#330033 40%,#ff4e88 100%)";
 
-// Add slow heart pulse glow
 document.body.classList.add("pulseBg");
 
-// Message
 let text="Pinki 💖\nMain dil se sorry hoon 🥺\nTum meri life ka best part ho ❤️";
 typeWriter(text,0);
 
-// Start shooting stars
 setInterval(createShootingStar,2000);
-
 }
 
 /* Typewriter */
@@ -183,10 +193,13 @@ setTimeout(()=>typeWriter(text,i+1),50);
 function createShootingStar(){
 let star=document.createElement("div");
 star.className="shoot";
-star.style.top=Math.random()*50+"vh";
-star.style.left=Math.random()*50+"vw";
+
+/* Start from RIGHT TOP */
+star.style.top=Math.random()*40+"vh";
+star.style.left="100vw";
+
 document.body.appendChild(star);
-setTimeout(()=>star.remove(),1000);
+setTimeout(()=>star.remove(),1200);
 }
 
 /* Sparkle Cursor */
