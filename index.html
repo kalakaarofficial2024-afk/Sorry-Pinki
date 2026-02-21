@@ -34,7 +34,8 @@ from{opacity:0.3;}
 to{opacity:1;}
 }
 
-/* Glow */
+.container{text-align:center;z-index:10;}
+
 .glow{
 color:#ff4e88;
 text-shadow:0 0 15px #ff4e88;
@@ -45,8 +46,6 @@ animation:pulse 2s infinite alternate;
 from{text-shadow:0 0 10px #ff4e88;}
 to{text-shadow:0 0 30px #ff1493;}
 }
-
-.container{text-align:center;z-index:10;}
 
 button{
 padding:15px 35px;
@@ -119,7 +118,7 @@ transform:rotateY(180deg);
 
 <body>
 
-<div class="container" id="setup">
+<div class="container">
 <h1 class="glow">Sorry Pinki 💖</h1>
 <h2>Kya tum mujhe maaf karogi? 🥺</h2>
 <button id="yesBtn" onclick="startLove()">Yes 💕</button>
@@ -138,7 +137,7 @@ transform:rotateY(180deg);
 
 <script>
 
-/* Create Stars */
+/* Stars */
 for(let i=0;i<120;i++){
 let star=document.createElement("div");
 star.className="star";
@@ -168,13 +167,17 @@ btn.style.top=Math.random()*80+"vh";
 /* Yes Click */
 function startLove(){
 
-// Soft pink glow background
-document.body.style.background="radial-gradient(circle at center,#2c003e 0%,#4b004f 40%,#ff4e88 100%)";
+// YES button gayab
+document.getElementById("yesBtn").style.display="none";
+
+// Soft pink mix (night visible rahega)
+document.body.style.background=
+"radial-gradient(circle at center,#1a0033 0%,#330033 40%,#ff4e88 100%)";
 
 let text="Pinki 💖\nMain dil se sorry hoon 🥺\nTum meri life ka best part ho ❤️";
 typeWriter(text,0);
 
-// Show card slowly
+// Card fade in
 let card=document.getElementById("loveCard");
 card.classList.add("show");
 
@@ -182,7 +185,6 @@ card.classList.add("show");
 card.addEventListener("click",function(){
 card.classList.add("flipped");
 
-// fade out after 3 sec
 setTimeout(()=>{
 card.style.opacity="0";
 },3000);
