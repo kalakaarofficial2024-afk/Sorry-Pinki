@@ -1,203 +1,206 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Sorry Pinki 💖</title>
-    <style>
-        /* Your Fixed CSS */
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sorry Pinki 💖</title>
 
-        html, body {
-            height: 100%;
-            width: 100%;
-            overflow: hidden;
-        }
+<style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
 
-        body {
-            font-family: Arial, sans-serif;
-            text-align: center;
-            color: white;
-            background: radial-gradient(circle at center, #0b1026 0%, #16213e 50%, #000000 100%);
-            background-attachment: fixed;
-            position: relative;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
+html, body {
+    height: 100%;
+    width: 100%;
+    overflow: hidden;
+}
 
-        /* Stars */
-        .star {
-            position: absolute;
-            background: white;
-            border-radius: 50%;
-            opacity: 0.6;
-            animation: twinkle 2s infinite alternate;
-        }
+body {
+    font-family: Arial, sans-serif;
+    text-align: center;
+    color: white;
+    background: radial-gradient(circle at center, #0b1026 0%, #16213e 50%, #000000 100%);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+}
 
-        @keyframes twinkle {
-            from {opacity: 0.3;}
-            to {opacity: 1;}
-        }
+/* Stars */
+.star {
+    position: absolute;
+    background: white;
+    border-radius: 50%;
+    opacity: 0.6;
+    animation: twinkle 2s infinite alternate;
+}
 
-        .container {
-            position: relative;
-            z-index: 10;
-            width: 90%;
-        }
+@keyframes twinkle {
+    from {opacity: 0.3;}
+    to {opacity: 1;}
+}
 
-        h1 {
-            font-size: clamp(35px, 10vw, 60px);
-            color: #ff4e88;
-            margin-bottom: 20px;
-        }
+.container {
+    position: relative;
+    z-index: 10;
+    width: 90%;
+}
 
-        h2 {
-            font-size: clamp(18px, 5vw, 26px);
-            font-weight: 300;
-            margin-bottom: 40px;
-        }
+h1 {
+    font-size: clamp(35px, 10vw, 60px);
+    color: #ff4e88;
+    margin-bottom: 20px;
+}
 
-        /* Glow Text */
-        .glow {
-            text-shadow: 0 0 10px #ff4e88, 0 0 20px #ff4e88, 0 0 40px #ff1493;
-            animation: glowPulse 2s infinite alternate;
-        }
+h2 {
+    font-size: clamp(18px, 5vw, 26px);
+    margin-bottom: 40px;
+}
 
-        @keyframes glowPulse {
-            from { text-shadow: 0 0 10px #ff4e88; }
-            to { text-shadow: 0 0 30px #ff1493; }
-        }
+/* Glow */
+.glow {
+    text-shadow: 0 0 10px #ff4e88,
+                 0 0 20px #ff4e88,
+                 0 0 40px #ff1493;
+    animation: glowPulse 2s infinite alternate;
+}
 
-        /* Buttons */
-        .btn-wrapper {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            gap: 20px;
-            min-height: 150px;
-        }
+@keyframes glowPulse {
+    from { text-shadow: 0 0 10px #ff4e88; }
+    to { text-shadow: 0 0 30px #ff1493; }
+}
 
-        button {
-            padding: 15px 35px;
-            font-size: 20px;
-            border: none;
-            border-radius: 50px;
-            cursor: pointer;
-            font-weight: bold;
-            transition: transform 0.2s ease;
-        }
+/* Buttons */
+.btn-wrapper {
+    position: relative;
+    height: 150px;
+}
 
-        #yesBtn {
-            background: #ff4e88;
-            color: white;
-            box-shadow: 0 0 20px rgba(255, 78, 136, 0.5);
-            z-index: 100;
-        }
+button {
+    padding: 15px 35px;
+    font-size: 20px;
+    border: none;
+    border-radius: 50px;
+    cursor: pointer;
+    font-weight: bold;
+}
 
-        #noBtn {
-            background: #555;
-            color: white;
-            position: fixed; /* Freedom to move on Mobile & Desktop */
-            z-index: 99;
-        }
+#yesBtn {
+    background: #ff4e88;
+    color: white;
+    z-index: 100;
+}
 
-        #message {
-            font-size: clamp(20px, 6vw, 28px);
-            color: #ffb6c1;
-            line-height: 1.6;
-            white-space: pre-line;
-            margin-top: 20px;
-        }
+#noBtn {
+    background: #555;
+    color: white;
+    position: absolute;   /* FIXED */
+    left: 60%;            /* Initial position */
+    top: 60%;
+}
 
-        .heart {
-            position: absolute;
-            pointer-events: none;
-            animation: floatUp 4s linear forwards;
-        }
+/* Message */
+#message {
+    font-size: clamp(20px, 6vw, 28px);
+    color: #ffb6c1;
+    line-height: 1.6;
+    white-space: pre-line;
+    margin-top: 20px;
+}
 
-        @keyframes floatUp {
-            0% { transform: translateY(110vh) scale(0); opacity: 1; }
-            100% { transform: translateY(-10vh) scale(1.5); opacity: 0; }
-        }
-    </style>
+/* Hearts */
+.heart {
+    position: absolute;
+    pointer-events: none;
+    animation: floatUp 4s linear forwards;
+}
+
+@keyframes floatUp {
+    0% { transform: translateY(110vh) scale(0); opacity: 1; }
+    100% { transform: translateY(-10vh) scale(1.5); opacity: 0; }
+}
+</style>
 </head>
+
 <body>
 
-    <div class="container">
-        <div id="setup">
-            <h1 class="glow">Sorry Pinki 💖</h1>
-            <h2>Kya tum mujhe maaf karogi? 🥺</h2>
-            <div class="btn-wrapper">
-                <button id="yesBtn" onclick="startLove()">Yes 💕</button>
-                <button id="noBtn" onmouseover="moveAndGrow()" ontouchstart="moveAndGrow()">No 😏</button>
-            </div>
+<div class="container">
+    <div id="setup">
+        <h1 class="glow">Sorry Pinki 💖</h1>
+        <h2>Kya tum mujhe maaf karogi? 🥺</h2>
+
+        <div class="btn-wrapper">
+            <button id="yesBtn" onclick="startLove()">Yes 💕</button>
+            <button id="noBtn" 
+                onmouseover="moveAndGrow()" 
+                ontouchstart="moveAndGrow()">No 😏</button>
         </div>
-        <div id="message"></div>
     </div>
 
-    <div id="ytContainer" style="display:none;"></div>
+    <div id="message"></div>
+</div>
 
 <script>
-    // Create Stars
-    for(let i=0; i<100; i++){
-        let star = document.createElement("div");
-        star.className = "star";
-        star.style.width = star.style.height = Math.random()*3+"px";
-        star.style.top = Math.random()*100+"vh";
-        star.style.left = Math.random()*100+"vw";
-        document.body.appendChild(star);
+
+// ⭐ Create Stars
+for(let i=0; i<100; i++){
+    let star=document.createElement("div");
+    star.className="star";
+    star.style.width=star.style.height=Math.random()*3+"px";
+    star.style.top=Math.random()*100+"vh";
+    star.style.left=Math.random()*100+"vw";
+    document.body.appendChild(star);
+}
+
+let scale = 1;
+
+function moveAndGrow() {
+
+    // Grow Yes button
+    scale += 0.4;
+    document.getElementById("yesBtn").style.transform = `scale(${scale})`;
+
+    // Move No button safely
+    let btn = document.getElementById("noBtn");
+
+    let maxX = window.innerWidth - btn.offsetWidth - 20;
+    let maxY = window.innerHeight - btn.offsetHeight - 20;
+
+    btn.style.left = Math.random() * maxX + "px";
+    btn.style.top = Math.random() * maxY + "px";
+}
+
+function startLove() {
+
+    document.getElementById("setup").style.display="none";
+
+    let text = "Pinki...\n\nTum meri life ka sabse beautiful part ho 💕\nMain dil se sorry hoon 🥺\nPlease mujhe maaf kar do ❤️\n\nForever yours 💖";
+
+    typeWriter(text,0);
+    setInterval(createHeart,300);
+}
+
+function typeWriter(text,i){
+    if(i < text.length){
+        document.getElementById("message").innerHTML += text.charAt(i);
+        setTimeout(()=>typeWriter(text,i+1),60);
     }
+}
 
-    let scale = 1;
+function createHeart(){
+    let heart=document.createElement("div");
+    heart.innerHTML="💖";
+    heart.className="heart";
+    heart.style.left=Math.random()*100+"vw";
+    heart.style.fontSize=Math.random()*20+20+"px";
+    document.body.appendChild(heart);
+    setTimeout(()=>heart.remove(),4000);
+}
 
-    function moveAndGrow() {
-        // 1. Grow Yes Button
-        scale += 0.4;
-        document.getElementById("yesBtn").style.transform = `scale(${scale})`;
-
-        // 2. Move No Button (Stay inside screen)
-        let btn = document.getElementById("noBtn");
-        let x = Math.random() * (window.innerWidth - btn.offsetWidth - 40) + 20;
-        let y = Math.random() * (window.innerHeight - btn.offsetHeight - 40) + 20;
-        btn.style.left = x + "px";
-        btn.style.top = y + "px";
-    }
-
-    function startLove() {
-        // Play Song
-        const videoId = "5r5mW0XvFJ8";
-        document.getElementById("ytContainer").innerHTML = 
-            `<iframe width="0" height="0" src="https://www.youtube.com/embed/${videoId}?autoplay=1&mute=0&loop=1&playlist=${videoId}" allow="autoplay"></iframe>`;
-
-        // UI Changes
-        document.getElementById("setup").style.display = "none";
-        
-        let text = "Pinki...\n\nTum meri life ka sabse beautiful part ho 💕\nMain dil se sorry hoon 🥺\nPlease mujhe maaf kar do ❤️\n\nForever yours 💖";
-        typeWriter(text, 0);
-        setInterval(createHeart, 300);
-    }
-
-    function typeWriter(text, i) {
-        if (i < text.length) {
-            document.getElementById("message").innerHTML += text.charAt(i);
-            setTimeout(() => typeWriter(text, i + 1), 60);
-        }
-    }
-
-    function createHeart() {
-        let heart = document.createElement("div");
-        heart.innerHTML = "💖";
-        heart.className = "heart";
-        heart.style.left = Math.random()*100+"vw";
-        heart.style.fontSize = Math.random()*20+20+"px";
-        document.body.appendChild(heart);
-        setTimeout(() => heart.remove(), 4000);
-    }
 </script>
+
 </body>
 </html>
