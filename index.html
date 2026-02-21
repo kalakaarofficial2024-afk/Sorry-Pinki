@@ -16,36 +16,25 @@ justify-content:center;
 align-items:center;
 font-family:Arial;
 color:white;
-background:linear-gradient(135deg,#0f2027,#203a43,#2c5364);
-transition:1s;
+background:radial-gradient(circle at center,#0b1026 0%,#16213e 50%,#000000 100%);
+transition:background 2s ease;
 }
 
-/* Loading Screen */
-#loader{
-position:fixed;
-width:100%;
-height:100%;
-background:#000;
-display:flex;
-justify-content:center;
-align-items:center;
-font-size:30px;
-z-index:1000;
-animation:fadeOut 3s forwards;
+/* Stars */
+.star{
+position:absolute;
+background:white;
+border-radius:50%;
+opacity:0.7;
+animation:twinkle 2s infinite alternate;
 }
 
-@keyframes fadeOut{
-0%{opacity:1;}
-90%{opacity:1;}
-100%{opacity:0;visibility:hidden;}
+@keyframes twinkle{
+from{opacity:0.3;}
+to{opacity:1;}
 }
 
-/* Main Box */
-.container{
-text-align:center;
-z-index:10;
-}
-
+/* Glow */
 .glow{
 color:#ff4e88;
 text-shadow:0 0 15px #ff4e88;
@@ -53,9 +42,11 @@ animation:pulse 2s infinite alternate;
 }
 
 @keyframes pulse{
-from{ text-shadow:0 0 10px #ff4e88;}
-to{ text-shadow:0 0 30px #ff1493;}
+from{text-shadow:0 0 10px #ff4e88;}
+to{text-shadow:0 0 30px #ff1493;}
 }
+
+.container{text-align:center;z-index:10;}
 
 button{
 padding:15px 35px;
@@ -83,6 +74,8 @@ width:300px;
 height:200px;
 margin:20px auto;
 perspective:1000px;
+opacity:0;
+transition:opacity 1.5s ease;
 }
 
 .flip-inner{
@@ -90,12 +83,8 @@ position:relative;
 width:100%;
 height:100%;
 text-align:center;
-transition:transform 1s;
 transform-style:preserve-3d;
-}
-
-.flip-card.flipped .flip-inner{
-transform:rotateY(180deg);
+transition:transform 1s;
 }
 
 .flip-front, .flip-back{
@@ -111,26 +100,18 @@ font-size:20px;
 padding:20px;
 }
 
-.flip-front{
-background:#ff4e88;
-}
-
+.flip-front{background:#ff4e88;}
 .flip-back{
 background:#ff1493;
 transform:rotateY(180deg);
 }
 
-/* Heart Trail */
-.trail{
-position:absolute;
-font-size:18px;
-pointer-events:none;
-animation:fade 1s linear forwards;
+.flip-card.show{
+opacity:1;
 }
 
-@keyframes fade{
-0%{opacity:1;}
-100%{opacity:0;transform:translateY(-20px);}
+.flip-card.flipped .flip-inner{
+transform:rotateY(180deg);
 }
 
 </style>
@@ -138,13 +119,7 @@ animation:fade 1s linear forwards;
 
 <body>
 
-<div id="loader">Loading Love... 💖</div>
-
-<audio id="bgMusic" loop>
-<source src="music.mp3" type="audio/mpeg">
-</audio>
-
-<div class="container" id="mainContent" style="display:none;">
+<div class="container" id="setup">
 <h1 class="glow">Sorry Pinki 💖</h1>
 <h2>Kya tum mujhe maaf karogi? 🥺</h2>
 <button id="yesBtn" onclick="startLove()">Yes 💕</button>
@@ -163,10 +138,17 @@ animation:fade 1s linear forwards;
 
 <script>
 
-setTimeout(()=>{
-document.getElementById("mainContent").style.display="block";
-},3000);
+/* Create Stars */
+for(let i=0;i<120;i++){
+let star=document.createElement("div");
+star.className="star";
+star.style.width=star.style.height=Math.random()*3+"px";
+star.style.top=Math.random()*100+"vh";
+star.style.left=Math.random()*100+"vw";
+document.body.appendChild(star);
+}
 
+/* No Button Logic */
 let moveCount=0;
 let scale=1;
 
@@ -183,16 +165,29 @@ btn.style.left=Math.random()*80+"vw";
 btn.style.top=Math.random()*80+"vh";
 }
 
+/* Yes Click */
 function startLove(){
 
-document.getElementById("bgMusic").play();
-
-document.body.style.background="linear-gradient(45deg,#ff4e88,#ff1493,#ff69b4)";
+// Soft pink glow background
+document.body.style.background="radial-gradient(circle at center,#2c003e 0%,#4b004f 40%,#ff4e88 100%)";
 
 let text="Pinki 💖\nMain dil se sorry hoon 🥺\nTum meri life ka best part ho ❤️";
 typeWriter(text,0);
 
-document.getElementById("loveCard").classList.add("flipped");
+// Show card slowly
+let card=document.getElementById("loveCard");
+card.classList.add("show");
+
+// Flip on click
+card.addEventListener("click",function(){
+card.classList.add("flipped");
+
+// fade out after 3 sec
+setTimeout(()=>{
+card.style.opacity="0";
+},3000);
+
+});
 
 }
 
@@ -203,17 +198,6 @@ document.getElementById("message").innerHTML+=text.charAt(i);
 setTimeout(()=>typeWriter(text,i+1),50);
 }
 }
-
-/* Heart Trail */
-document.addEventListener("mousemove",function(e){
-let heart=document.createElement("div");
-heart.className="trail";
-heart.innerHTML="💖";
-heart.style.left=e.pageX+"px";
-heart.style.top=e.pageY+"px";
-document.body.appendChild(heart);
-setTimeout(()=>heart.remove(),1000);
-});
 
 </script>
 
