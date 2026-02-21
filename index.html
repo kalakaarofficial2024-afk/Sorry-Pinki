@@ -76,6 +76,7 @@ position:absolute;
 color:#ff4e88;
 opacity:0.4;
 animation:floatUp 10s linear infinite;
+pointer-events:none;
 }
 
 @keyframes floatUp{
@@ -84,21 +85,25 @@ animation:floatUp 10s linear infinite;
 100%{transform:translateY(-10vh);opacity:0;}
 }
 
-/* Shooting Star */
+/* Shooting Star - No Spin */
 .shoot{
 position:absolute;
-width:3px;
-height:150px;
-background:linear-gradient(white,transparent);
-opacity:0.8;
-animation:shooting 1.5s linear forwards;
+width:2px;
+height:160px;
+background:linear-gradient(to bottom, white, transparent);
+opacity:0.9;
+pointer-events:none;
+animation:shooting 1.2s linear forwards;
 }
 
 @keyframes shooting{
-0%{opacity:1;}
+0%{
+opacity:1;
+transform:translate(0,0);
+}
 100%{
 opacity:0;
-transform:translate(var(--x), var(--y));
+transform:translate(var(--moveX), var(--moveY));
 }
 }
 
@@ -247,33 +252,29 @@ setTimeout(()=>typeWriter(text,i+1),50);
 }
 }
 
-/* FIXED DIRECTION SHOOTING STAR */
-/* Right Top ➜ Left Down */
+/* Clean Diagonal Shooting Star */
 function createShootingStar(){
 
 let star=document.createElement("div");
 star.className="shoot";
 
 /* Start from right-top */
-let startX = window.innerWidth + Math.random()*200;
-let startY = Math.random()*200;
+let startX = window.innerWidth + Math.random()*150;
+let startY = Math.random()*150;
 
 star.style.left = startX + "px";
 star.style.top = startY + "px";
 
 /* Move to left-down */
-let moveX = - (window.innerWidth + 400);
-let moveY = window.innerHeight + 400;
+let moveX = - (window.innerWidth + 300);
+let moveY = window.innerHeight + 300;
 
-star.style.setProperty('--x', moveX + "px");
-star.style.setProperty('--y', moveY + "px");
-
-/* Perfect diagonal angle */
-star.style.transform = "rotate(135deg)";
+star.style.setProperty('--moveX', moveX + "px");
+star.style.setProperty('--moveY', moveY + "px");
 
 document.body.appendChild(star);
 
-setTimeout(()=>star.remove(),1500);
+setTimeout(()=>star.remove(),1200);
 }
 
 /* Sparkle Cursor */
