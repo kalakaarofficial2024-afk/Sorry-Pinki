@@ -9,22 +9,34 @@ body {
   height: 100vh;
   text-align: center;
   font-family: 'Segoe UI', sans-serif;
-  background: linear-gradient(to right, #ff9a9e, #fad0c4);
+  background: radial-gradient(circle at top, #1a1a2e, #16213e, #0f3460);
   overflow: hidden;
   color: white;
 }
 
+/* Stars */
+.star {
+  position: absolute;
+  width: 2px;
+  height: 2px;
+  background: white;
+  animation: twinkle 2s infinite alternate;
+}
+
+@keyframes twinkle {
+  from {opacity: 0.2;}
+  to {opacity: 1;}
+}
+
 .container {
   margin-top: 15vh;
+  position: relative;
+  z-index: 2;
 }
 
 h1 {
-  font-size: 55px;
-  text-shadow: 2px 2px 15px rgba(0,0,0,0.4);
-}
-
-h2 {
-  font-weight: normal;
+  font-size: 50px;
+  color: #ff4e88;
 }
 
 button {
@@ -38,7 +50,7 @@ button {
 }
 
 #yesBtn {
-  background: #ff4e50;
+  background: #ff4e88;
   color: white;
 }
 
@@ -47,26 +59,21 @@ button {
 }
 
 #noBtn {
-  background: #444;
+  background: #555;
   color: white;
   position: absolute;
 }
 
-#finalMessage {
-  display: none;
-  font-size: 30px;
+#message {
   margin-top: 30px;
-  animation: fadeIn 2s ease-in-out;
-}
-
-@keyframes fadeIn {
-  from {opacity: 0;}
-  to {opacity: 1;}
+  font-size: 26px;
+  min-height: 120px;
+  white-space: pre-line;
 }
 
 .heart {
   position: absolute;
-  font-size: 22px;
+  font-size: 20px;
   animation: float 6s linear infinite;
 }
 
@@ -83,17 +90,10 @@ button {
   <h1>Sorry Pinki 💖</h1>
   <h2>Kya tum mujhe maaf karogi? 🥺</h2>
 
-  <button id="yesBtn" onclick="accept()">Yes 💕</button>
+  <button id="yesBtn" onclick="startLove()">Yes 💕</button>
   <button id="noBtn" onmouseover="moveButton()">No 😏</button>
 
-  <div id="finalMessage">
-    💌 Pinki...  
-    <br><br>
-    Tum meri smile ka reason ho 💕  
-    Main dil se sorry hoon 🥺  
-    Please mujhe maaf kar do ❤️  
-    I promise forever yours 💖
-  </div>
+  <div id="message"></div>
 </div>
 
 <!-- Soft Romantic Piano -->
@@ -103,9 +103,13 @@ button {
 
 <script>
 
-function accept() {
-  document.getElementById("finalMessage").style.display = "block";
-  fireworks();
+/* Stars generate */
+for(let i=0;i<120;i++){
+  let star=document.createElement("div");
+  star.className="star";
+  star.style.top=Math.random()*100+"vh";
+  star.style.left=Math.random()*100+"vw";
+  document.body.appendChild(star);
 }
 
 function moveButton() {
@@ -114,8 +118,23 @@ function moveButton() {
   btn.style.left = Math.random() * window.innerWidth + "px";
 }
 
+function startLove() {
+  let text = "Pinki...\n\nTum meri life ka sabse beautiful part ho 💕\nMain dil se sorry hoon 🥺\nPlease mujhe maaf kar do ❤️\nForever yours 💖";
+  typeWriter(text, 0);
+  fireworks();
+}
+
+function typeWriter(text, i) {
+  if (i < text.length) {
+    document.getElementById("message").innerHTML += text.charAt(i);
+    setTimeout(function() {
+      typeWriter(text, i + 1);
+    }, 50);
+  }
+}
+
 function fireworks() {
-  for(let i=0;i<40;i++){
+  for(let i=0;i<35;i++){
     let heart = document.createElement("div");
     heart.innerHTML = "💖";
     heart.className = "heart";
