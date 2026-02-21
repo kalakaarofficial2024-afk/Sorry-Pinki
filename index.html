@@ -2,13 +2,15 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Sorry Pinki 💖</title>
     <style>
+        * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+        
         body {
             margin: 0;
             height: 100vh;
-            background: radial-gradient(circle at top, #1a1a2e, #16213e, #0f3460);
+            background: radial-gradient(circle at top, #0b1026, #16213e, #000000);
             color: white;
             font-family: 'Segoe UI', Tahoma, sans-serif;
             overflow: hidden;
@@ -18,6 +20,7 @@
             text-align: center;
         }
 
+        /* Animated Star Background */
         .star {
             position: absolute;
             background: white;
@@ -25,52 +28,54 @@
             opacity: 0.5;
             animation: twinkle 2s infinite alternate;
         }
-
-        @keyframes twinkle { from {opacity: 0.3;} to {opacity: 1;} }
+        @keyframes twinkle { from {opacity: 0.2;} to {opacity: 1;} }
 
         .container {
             z-index: 10;
+            width: 90%;
+            max-width: 500px;
             padding: 20px;
         }
 
-        h1 { font-size: 50px; color: #ff4e88; text-shadow: 0 0 15px rgba(255, 78, 136, 0.6); }
-        h2 { font-weight: 300; margin-bottom: 30px; }
+        h1 { font-size: clamp(30px, 8vw, 50px); color: #ff4e88; text-shadow: 0 0 15px rgba(255, 78, 136, 0.6); margin: 0; }
+        h2 { font-size: clamp(18px, 5vw, 24px); font-weight: 300; margin-top: 10px; margin-bottom: 30px; }
 
         .btn-wrapper {
+            position: relative;
+            height: 250px;
             display: flex;
             justify-content: center;
             align-items: center;
-            gap: 20px;
-            min-height: 200px;
         }
 
         button {
             padding: 15px 35px;
-            font-size: 20px;
+            font-size: 18px;
             border: none;
-            border-radius: 40px;
+            border-radius: 50px;
             cursor: pointer;
-            transition: all 0.2s ease-out;
             font-weight: bold;
+            transition: transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
         }
 
         #yesBtn {
             background: #ff4e88;
             color: white;
-            box-shadow: 0 0 20px rgba(255, 78, 136, 0.4);
-            z-index: 1000;
+            z-index: 100;
         }
 
         #noBtn {
             background: #555;
             color: white;
-            position: fixed;
-            z-index: 999;
+            position: fixed; /* Freedom to move anywhere */
+            z-index: 99;
+            transition: left 0.2s ease, top 0.2s ease;
         }
 
         #message {
-            margin-top: 30px;
-            font-size: 26px;
+            margin-top: 20px;
+            font-size: clamp(18px, 4vw, 24px);
             line-height: 1.6;
             color: #ffb6c1;
             white-space: pre-line;
@@ -79,11 +84,11 @@
         .heart {
             position: absolute;
             pointer-events: none;
-            animation: floatUp 5s linear forwards;
+            animation: floatUp 4s linear forwards;
+            z-index: 5;
         }
-
         @keyframes floatUp {
-            0% { transform: translateY(100vh) scale(0); opacity: 1; }
+            0% { transform: translateY(110vh) scale(0); opacity: 1; }
             100% { transform: translateY(-10vh) scale(1.5); opacity: 0; }
         }
     </style>
@@ -96,71 +101,76 @@
         <h2>Kya tum mujhe maaf karogi? 🥺</h2>
         <div class="btn-wrapper">
             <button id="yesBtn" onclick="startLove()">Yes 💕</button>
-            <button id="noBtn" onmouseover="moveAndGrow()" onclick="moveAndGrow()">No 😏</button>
+            <button id="noBtn" onmouseover="moveAndGrow()" ontouchstart="moveAndGrow()">No 😏</button>
         </div>
     </div>
     <div id="message"></div>
 </div>
 
-<div id="ytContainer"></div>
+<div id="ytContainer" style="display:none;"></div>
 
 <script>
-    // Stars Background
-    for(let i=0; i<120; i++){
+    // Create Stars
+    for(let i=0; i<100; i++){
         let star = document.createElement("div");
         star.className = "star";
-        star.style.width = star.style.height = Math.random()*3+"px";
+        star.style.width = star.style.height = Math.random()*2+"px";
         star.style.top = Math.random()*100+"vh";
         star.style.left = Math.random()*100+"vw";
         document.body.appendChild(star);
     }
 
     let scale = 1;
-    let yesBtn = document.getElementById("yesBtn");
+    const yesBtn = document.getElementById("yesBtn");
 
     function moveAndGrow() {
         // 1. Grow Yes Button
-        scale += 0.3; 
+        scale += 0.3;
         yesBtn.style.transform = `scale(${scale})`;
 
         // 2. Move No Button
         let btn = document.getElementById("noBtn");
-        let x = Math.random() * (window.innerWidth - btn.offsetWidth - 40) + 20;
-        let y = Math.random() * (window.innerHeight - btn.offsetHeight - 40) + 20;
+        // Safe boundaries so it doesn't hide behind edges
+        let padding = 80;
+        let x = Math.random() * (window.innerWidth - btn.offsetWidth - padding) + padding/2;
+        let y = Math.random() * (window.innerHeight - btn.offsetHeight - padding) + padding/2;
+        
         btn.style.left = x + "px";
         btn.style.top = y + "px";
     }
 
     function startLove() {
-        // Play Song - Fixed logic
+        // Play Song
         const videoId = "5r5mW0XvFJ8";
         document.getElementById("ytContainer").innerHTML = 
-            `<iframe width="0" height="0" src="https://www.youtube.com/embed/${videoId}?autoplay=1&mute=0&loop=1&playlist=${videoId}" frameborder="0" allow="autoplay"></iframe>`;
+            `<iframe width="0" height="0" src="https://www.youtube.com/embed/${videoId}?autoplay=1&mute=0&loop=1&playlist=${videoId}" allow="autoplay"></iframe>`;
 
-        // UI Changes
+        // UI Clean up
         document.getElementById("setup").style.display = "none";
         
-        let text = "Pinki...\n\nTum meri life ka sabse beautiful part ho 💕\nMain dil se sorry hoon 🥺\nPlease mujhe maaf kar do ❤️\nForever yours 💖";
+        // Custom Message
+        let text = "Pinki...\n\nTum meri life ka sabse beautiful part ho 💕\nMain dil se sorry hoon 🥺\nPlease mujhe maaf kar do ❤️\n\nForever yours 💖";
         typeWriter(text, 0);
         setInterval(createHeart, 300);
     }
 
     function typeWriter(text, i) {
+        const target = document.getElementById("message");
         if (i < text.length) {
-            document.getElementById("message").innerHTML += text.charAt(i);
+            target.innerHTML += text.charAt(i);
             setTimeout(() => typeWriter(text, i + 1), 50);
         }
     }
 
     function createHeart() {
         let heart = document.createElement("div");
-        heart.innerHTML = "💖";
+        const emojis = ["💖", "💗", "💕", "✨"];
+        heart.innerHTML = emojis[Math.floor(Math.random()*emojis.length)];
         heart.className = "heart";
         heart.style.left = Math.random()*100+"vw";
-        heart.style.fontSize = Math.random()*20+20+"px";
-        heart.style.animationDuration = (Math.random()*3+2)+"s";
+        heart.style.fontSize = Math.random()*15+20+"px";
         document.body.appendChild(heart);
-        setTimeout(() => heart.remove(), 5000);
+        setTimeout(() => heart.remove(), 4000);
     }
 </script>
 
