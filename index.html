@@ -19,6 +19,7 @@ body {
     justify-content: center;
     align-items: center;
     text-align: center;
+    transition: 1s;
 }
 
 /* Stars */
@@ -41,7 +42,6 @@ body {
 h1 {
     font-size: clamp(30px, 8vw, 50px);
     color: #ff4e88;
-    text-shadow: 0 0 15px rgba(255, 78, 136, 0.6);
 }
 
 h2 {
@@ -62,7 +62,6 @@ button {
     cursor: pointer;
     font-weight: bold;
     transition: transform 0.2s ease;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.3);
 }
 
 #yesBtn {
@@ -76,7 +75,6 @@ button {
     color: white;
     position: absolute;
     z-index: 99;
-    transition: left 0.2s ease, top 0.2s ease;
 }
 
 #message {
@@ -87,6 +85,22 @@ button {
     white-space: pre-line;
 }
 
+/* Glow Name */
+.glow-name {
+    font-size: 40px;
+    color: #ff4e88;
+    text-shadow: 0 0 10px #ff4e88,
+                 0 0 20px #ff4e88,
+                 0 0 40px #ff1493;
+    animation: glowPulse 2s infinite alternate;
+}
+
+@keyframes glowPulse {
+    from { text-shadow: 0 0 10px #ff4e88; }
+    to { text-shadow: 0 0 30px #ff1493; }
+}
+
+/* Hearts */
 .heart {
     position: absolute;
     pointer-events: none;
@@ -101,6 +115,8 @@ button {
 
 <body>
 
+<audio id="bgMusic" src="song.mp3" loop></audio>
+
 <div class="container">
     <div id="setup">
         <h1>Sorry Pinki 💖</h1>
@@ -113,11 +129,9 @@ button {
     <div id="message"></div>
 </div>
 
-<div id="ytContainer"></div>
-
 <script>
 
-// ⭐ Create Stars
+// Stars
 for(let i=0; i<100; i++){
     let star = document.createElement("div");
     star.className = "star";
@@ -127,7 +141,7 @@ for(let i=0; i<100; i++){
     document.body.appendChild(star);
 }
 
-// Set initial No button position
+// Initial No position
 window.onload = function() {
     const btn = document.getElementById("noBtn");
     btn.style.left = "60%";
@@ -138,38 +152,34 @@ let scale = 1;
 const yesBtn = document.getElementById("yesBtn");
 
 function moveAndGrow() {
-
-    // Grow Yes button
     scale += 0.3;
     yesBtn.style.transform = `scale(${scale})`;
 
-    // Move No button inside screen
     const btn = document.getElementById("noBtn");
-
     const maxX = window.innerWidth - btn.offsetWidth - 20;
     const maxY = window.innerHeight - btn.offsetHeight - 20;
 
-    const x = Math.random() * maxX;
-    const y = Math.random() * maxY;
-
-    btn.style.left = x + "px";
-    btn.style.top = y + "px";
+    btn.style.left = Math.random()*maxX + "px";
+    btn.style.top = Math.random()*maxY + "px";
 }
 
 function startLove() {
 
-    // Play Song (Safe Method)
-    const videoId = "5r5mW0XvFJ8";
-    document.getElementById("ytContainer").innerHTML = `
-    <iframe 
-        src="https://www.youtube.com/embed/${videoId}?autoplay=1&loop=1&playlist=${videoId}&controls=0"
-        allow="autoplay"
-        style="position:absolute;width:1px;height:1px;border:0;">
-    </iframe>`;
+    // Play MP3
+    document.getElementById("bgMusic").play();
+
+    // Change background
+    document.body.style.background =
+    "radial-gradient(circle, #2c003e, #000000)";
 
     document.getElementById("setup").style.display = "none";
 
-    let text = "Pinki...\n\nTum meri life ka sabse beautiful part ho 💕\nMain dil se sorry hoon 🥺\nPlease mujhe maaf kar do ❤️\n\nForever yours 💖";
+    // Glow Name
+    document.getElementById("message").innerHTML =
+    "<div class='glow-name'>PINKI 💖</div><br>";
+
+    let text = "\nTum meri life ka sabse beautiful part ho 💕\nMain dil se sorry hoon 🥺\nPlease mujhe maaf kar do ❤️\n\nForever yours 💖";
+
     typeWriter(text, 0);
     setInterval(createHeart, 300);
 }
