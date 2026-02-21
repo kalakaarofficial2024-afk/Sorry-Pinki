@@ -1,170 +1,113 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Sorry Pinki 💖</title>
-    <style>
-        body {
-            margin: 0;
-            font-family: 'Comic Sans MS', cursive, sans-serif;
-            background: linear-gradient(135deg, #ff9a9e, #fad0c4);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            overflow: hidden;
-        }
+<title>Sorry Pinki 💖</title>
 
-        .card {
-            background: white;
-            padding: 40px;
-            border-radius: 20px;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.2);
-            text-align: center;
-            max-width: 500px;
-            position: relative;
-            z-index: 2;
-        }
+<style>
+body {
+  text-align: center;
+  font-family: Arial;
+  background: linear-gradient(to right, #ff9a9e, #fad0c4);
+  overflow: hidden;
+}
 
-        h1 {
-            font-size: 2.3rem;
-            margin-bottom: 10px;
-        }
+h1 {
+  font-size: 50px;
+  margin-top: 50px;
+}
 
-        .cute-name {
-            display: inline-block;
-            color: #ff4d6d;
-            animation: wiggle 1s infinite alternate, glow 1.5s infinite;
-        }
+button {
+  padding: 15px 30px;
+  font-size: 20px;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  margin: 10px;
+}
 
-        @keyframes wiggle {
-            from { transform: rotate(-3deg); }
-            to { transform: rotate(3deg); }
-        }
+#yesBtn {
+  background: green;
+  color: white;
+}
 
-        @keyframes glow {
-            0% { text-shadow: 0 0 5px #ff4d6d; }
-            50% { text-shadow: 0 0 20px #ff85a1; }
-            100% { text-shadow: 0 0 5px #ff4d6d; }
-        }
+#noBtn {
+  background: red;
+  color: white;
+  position: absolute;
+}
 
-        p {
-            font-size: 1.2rem;
-            margin-bottom: 30px;
-        }
+#letter {
+  display: none;
+  margin-top: 20px;
+  font-size: 22px;
+  animation: fadeIn 2s;
+}
 
-        .buttons {
-            position: relative;
-            height: 60px;
-        }
+@keyframes fadeIn {
+  from {opacity: 0;}
+  to {opacity: 1;}
+}
 
-        button {
-            padding: 12px 25px;
-            font-size: 1rem;
-            border: none;
-            border-radius: 50px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            position: absolute;
-        }
+.heart {
+  position: absolute;
+  color: red;
+  font-size: 25px;
+  animation: float 5s linear infinite;
+}
 
-        #forgive {
-            background: #4CAF50;
-            color: white;
-            left: 30%;
-        }
-
-        #nope {
-            background: #f44336;
-            color: white;
-            left: 60%;
-        }
-
-        #message {
-            margin-top: 20px;
-            font-weight: bold;
-            font-size: 1.3rem;
-        }
-
-        .emoji {
-            font-size: 3rem;
-            animation: bounce 1s infinite;
-        }
-
-        @keyframes bounce {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-10px); }
-        }
-
-        .heart {
-            position: fixed;
-            top: -10px;
-            font-size: 20px;
-            animation: fall linear forwards;
-            z-index: 1;
-        }
-
-        @keyframes fall {
-            to {
-                transform: translateY(110vh);
-                opacity: 0;
-            }
-        }
-    </style>
+@keyframes float {
+  from {transform: translateY(100vh);}
+  to {transform: translateY(-10vh);}
+}
+</style>
 </head>
+
 <body>
 
-    <!-- Romantic Background Music -->
-    <audio id="bg-music" autoplay loop>
-        <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mpeg">
-    </audio>
+<h1>Sorry Pinki 💖</h1>
+<h2>Kya tum mujhe maaf karogi? 🥺</h2>
 
-    <div class="card">
-        <div class="emoji">🥺</div>
-        <h1><span class="cute-name">Pinki</span>, I Am Really Sorry! 💖</h1>
-        <p>Pinki, I messed up. My bad. 100% certified mistake. Please forgive me? 🥺💗</p>
+<button id="yesBtn" onclick="accept()">Yes 💖</button>
+<button id="noBtn" onmouseover="moveButton()">No 😏</button>
 
-        <div class="buttons">
-            <button id="forgive">Okay, I forgive you 😇</button>
-            <button id="nope">Nope 😈</button>
-        </div>
+<div id="letter">
+💌 Pinki,
+<br><br>
+Main officially duniya ka sabse bada bewakoof hoon 😭  
+Please mujhe maaf kar do 💖  
+Main promise karta hoon dobara galti nahi hogi 🥺  
+Love you infinity ♾️
+</div>
 
-        <div id="message"></div>
-    </div>
+<audio autoplay loop>
+  <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mpeg">
+</audio>
 
-    <script>
-        const nopeBtn = document.getElementById('nope');
-        const forgiveBtn = document.getElementById('forgive');
-        const message = document.getElementById('message');
+<script>
 
-        nopeBtn.addEventListener('mouseover', () => {
-            const x = Math.random() * 250;
-            const y = Math.random() * 40;
-            nopeBtn.style.left = x + 'px';
-            nopeBtn.style.top = y + 'px';
-        });
+function accept() {
+  document.getElementById("letter").style.display = "block";
+  fireworks();
+}
 
-        function createHeart() {
-            const heart = document.createElement('div');
-            heart.classList.add('heart');
-            heart.innerHTML = '❤️';
-            heart.style.left = Math.random() * 100 + 'vw';
-            heart.style.animationDuration = (Math.random() * 2 + 3) + 's';
-            document.body.appendChild(heart);
+function moveButton() {
+  var btn = document.getElementById("noBtn");
+  btn.style.top = Math.random() * window.innerHeight + "px";
+  btn.style.left = Math.random() * window.innerWidth + "px";
+}
 
-            setTimeout(() => {
-                heart.remove();
-            }, 5000);
-        }
+function fireworks() {
+  for(let i=0;i<50;i++){
+    let heart = document.createElement("div");
+    heart.innerHTML = "💖";
+    heart.className = "heart";
+    heart.style.left = Math.random()*100+"vw";
+    heart.style.animationDuration = (Math.random()*3+2)+"s";
+    document.body.appendChild(heart);
+  }
+}
 
-        forgiveBtn.addEventListener('click', () => {
-            message.innerHTML = "YAY!!! Pinki is officially the best human ever 🏆💖";
-            document.body.style.background = "linear-gradient(135deg, #a1ffce, #faffd1)";
+</script>
 
-            // Make hearts fall
-            setInterval(createHeart, 300);
-        });
-    </script>
 </body>
 </html>
