@@ -1,206 +1,110 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Sorry Pinki 💖</title>
 
 <style>
-* { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
-
 body {
-    margin: 0;
-    height: 100vh;
-    background: radial-gradient(circle at top, #0b1026, #16213e, #000000);
-    color: white;
-    font-family: 'Segoe UI', sans-serif;
-    overflow: hidden;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    text-align: center;
-    transition: 1s;
-}
-
-/* Stars */
-.star {
-    position: absolute;
-    background: white;
-    border-radius: 50%;
-    opacity: 0.5;
-    animation: twinkle 2s infinite alternate;
-}
-@keyframes twinkle { from {opacity: 0.2;} to {opacity: 1;} }
-
-.container {
-    z-index: 10;
-    width: 90%;
-    max-width: 500px;
-    padding: 20px;
+  text-align: center;
+  font-family: Arial;
+  background: linear-gradient(to right, #ff9a9e, #fad0c4);
+  overflow: hidden;
 }
 
 h1 {
-    font-size: clamp(30px, 8vw, 50px);
-    color: #ff4e88;
-}
-
-h2 {
-    font-size: clamp(18px, 5vw, 24px);
-    margin-bottom: 30px;
-}
-
-.btn-wrapper {
-    position: relative;
-    height: 250px;
+  font-size: 50px;
+  margin-top: 50px;
 }
 
 button {
-    padding: 15px 35px;
-    font-size: 18px;
-    border: none;
-    border-radius: 50px;
-    cursor: pointer;
-    font-weight: bold;
-    transition: transform 0.2s ease;
+  padding: 15px 30px;
+  font-size: 20px;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  margin: 10px;
 }
 
 #yesBtn {
-    background: #ff4e88;
-    color: white;
-    z-index: 100;
+  background: green;
+  color: white;
 }
 
 #noBtn {
-    background: #555;
-    color: white;
-    position: absolute;
-    z-index: 99;
+  background: red;
+  color: white;
+  position: absolute;
 }
 
-#message {
-    margin-top: 20px;
-    font-size: clamp(18px, 4vw, 24px);
-    line-height: 1.6;
-    color: #ffb6c1;
-    white-space: pre-line;
+#letter {
+  display: none;
+  margin-top: 20px;
+  font-size: 22px;
+  animation: fadeIn 2s;
 }
 
-/* Glow Name */
-.glow-name {
-    font-size: 40px;
-    color: #ff4e88;
-    text-shadow: 0 0 10px #ff4e88,
-                 0 0 20px #ff4e88,
-                 0 0 40px #ff1493;
-    animation: glowPulse 2s infinite alternate;
+@keyframes fadeIn {
+  from {opacity: 0;}
+  to {opacity: 1;}
 }
 
-@keyframes glowPulse {
-    from { text-shadow: 0 0 10px #ff4e88; }
-    to { text-shadow: 0 0 30px #ff1493; }
-}
-
-/* Hearts */
 .heart {
-    position: absolute;
-    pointer-events: none;
-    animation: floatUp 4s linear forwards;
+  position: absolute;
+  color: red;
+  font-size: 25px;
+  animation: float 5s linear infinite;
 }
-@keyframes floatUp {
-    0% { transform: translateY(110vh) scale(0); opacity: 1; }
-    100% { transform: translateY(-10vh) scale(1.5); opacity: 0; }
+
+@keyframes float {
+  from {transform: translateY(100vh);}
+  to {transform: translateY(-10vh);}
 }
 </style>
 </head>
 
 <body>
 
-<audio id="bgMusic" src="song.mp3" loop></audio>
+<h1>Sorry Pinki 💖</h1>
+<h2>Kya tum mujhe maaf karogi? 🥺</h2>
 
-<div class="container">
-    <div id="setup">
-        <h1>Sorry Pinki 💖</h1>
-        <h2>Kya tum mujhe maaf karogi? 🥺</h2>
-        <div class="btn-wrapper">
-            <button id="yesBtn" onclick="startLove()">Yes 💕</button>
-            <button id="noBtn" onmouseover="moveAndGrow()" ontouchstart="moveAndGrow()">No 😏</button>
-        </div>
-    </div>
-    <div id="message"></div>
+<button id="yesBtn" onclick="accept()">Yes 💖</button>
+<button id="noBtn" onmouseover="moveButton()">No 😏</button>
+
+<div id="letter">
+💌 Pinki,
+<br><br>
+Main officially duniya ka sabse bada bewakoof hoon 😭  
+Please mujhe maaf kar do 💖  
+Main promise karta hoon dobara galti nahi hogi 🥺  
+Love you infinity ♾️
 </div>
+
+<audio autoplay loop>
+  <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mpeg">
+</audio>
 
 <script>
 
-// Stars
-for(let i=0; i<100; i++){
-    let star = document.createElement("div");
-    star.className = "star";
-    star.style.width = star.style.height = Math.random()*2+"px";
-    star.style.top = Math.random()*100+"vh";
-    star.style.left = Math.random()*100+"vw";
-    document.body.appendChild(star);
+function accept() {
+  document.getElementById("letter").style.display = "block";
+  fireworks();
 }
 
-// Initial No position
-window.onload = function() {
-    const btn = document.getElementById("noBtn");
-    btn.style.left = "60%";
-    btn.style.top = "60%";
-};
-
-let scale = 1;
-const yesBtn = document.getElementById("yesBtn");
-
-function moveAndGrow() {
-    scale += 0.3;
-    yesBtn.style.transform = `scale(${scale})`;
-
-    const btn = document.getElementById("noBtn");
-    const maxX = window.innerWidth - btn.offsetWidth - 20;
-    const maxY = window.innerHeight - btn.offsetHeight - 20;
-
-    btn.style.left = Math.random()*maxX + "px";
-    btn.style.top = Math.random()*maxY + "px";
+function moveButton() {
+  var btn = document.getElementById("noBtn");
+  btn.style.top = Math.random() * window.innerHeight + "px";
+  btn.style.left = Math.random() * window.innerWidth + "px";
 }
 
-function startLove() {
-
-    // Play MP3
-    document.getElementById("bgMusic").play();
-
-    // Change background
-    document.body.style.background =
-    "radial-gradient(circle, #2c003e, #000000)";
-
-    document.getElementById("setup").style.display = "none";
-
-    // Glow Name
-    document.getElementById("message").innerHTML =
-    "<div class='glow-name'>PINKI 💖</div><br>";
-
-    let text = "\nTum meri life ka sabse beautiful part ho 💕\nMain dil se sorry hoon 🥺\nPlease mujhe maaf kar do ❤️\n\nForever yours 💖";
-
-    typeWriter(text, 0);
-    setInterval(createHeart, 300);
-}
-
-function typeWriter(text, i) {
-    const target = document.getElementById("message");
-    if (i < text.length) {
-        target.innerHTML += text.charAt(i);
-        setTimeout(() => typeWriter(text, i + 1), 50);
-    }
-}
-
-function createHeart() {
+function fireworks() {
+  for(let i=0;i<50;i++){
     let heart = document.createElement("div");
-    const emojis = ["💖","💗","💕","✨"];
-    heart.innerHTML = emojis[Math.floor(Math.random()*emojis.length)];
+    heart.innerHTML = "💖";
     heart.className = "heart";
     heart.style.left = Math.random()*100+"vw";
-    heart.style.fontSize = Math.random()*15+20+"px";
+    heart.style.animationDuration = (Math.random()*3+2)+"s";
     document.body.appendChild(heart);
-    setTimeout(() => heart.remove(), 4000);
+  }
 }
 
 </script>
