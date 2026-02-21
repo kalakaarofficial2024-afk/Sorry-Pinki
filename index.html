@@ -5,15 +5,44 @@
 
 <style>
 body {
+  margin: 0;
   text-align: center;
-  font-family: Arial;
-  background: linear-gradient(to right, #ff9a9e, #fad0c4);
+  font-family: Arial, sans-serif;
+  background: radial-gradient(circle at top, #0b1026, #16213e, #000000);
   overflow: hidden;
+  color: white;
+  transition: 1s;
+}
+
+/* Stars */
+.star {
+  position: absolute;
+  background: white;
+  border-radius: 50%;
+  opacity: 0.5;
+  animation: twinkle 2s infinite alternate;
+}
+@keyframes twinkle {
+  from {opacity: 0.2;}
+  to {opacity: 1;}
 }
 
 h1 {
   font-size: 50px;
-  margin-top: 50px;
+  margin-top: 60px;
+  color: #ff4e88;
+}
+
+/* Glow Text */
+.glow {
+  text-shadow: 0 0 10px #ff4e88,
+               0 0 20px #ff4e88,
+               0 0 40px #ff1493;
+  animation: glowPulse 2s infinite alternate;
+}
+@keyframes glowPulse {
+  from { text-shadow: 0 0 10px #ff4e88; }
+  to { text-shadow: 0 0 30px #ff1493; }
 }
 
 button {
@@ -26,21 +55,22 @@ button {
 }
 
 #yesBtn {
-  background: green;
+  background: #ff4e88;
   color: white;
 }
 
 #noBtn {
-  background: red;
+  background: #555;
   color: white;
   position: absolute;
 }
 
 #letter {
   display: none;
-  margin-top: 20px;
+  margin-top: 30px;
   font-size: 22px;
   animation: fadeIn 2s;
+  color: #ffb6c1;
 }
 
 @keyframes fadeIn {
@@ -50,7 +80,7 @@ button {
 
 .heart {
   position: absolute;
-  color: red;
+  color: #ff4e88;
   font-size: 25px;
   animation: float 5s linear infinite;
 }
@@ -64,7 +94,7 @@ button {
 
 <body>
 
-<h1>Sorry Pinki 💖</h1>
+<h1>Sorry <span class="glow">Pinki 💖</span></h1>
 <h2>Kya tum mujhe maaf karogi? 🥺</h2>
 
 <button id="yesBtn" onclick="accept()">Yes 💖</button>
@@ -79,30 +109,58 @@ Main promise karta hoon dobara galti nahi hogi 🥺
 Love you infinity ♾️
 </div>
 
-<audio autoplay loop>
-  <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mpeg">
+<audio id="bgMusic" loop>
+  <source src="song.mp3" type="audio/mpeg">
 </audio>
 
 <script>
 
+// ⭐ Create Stars
+for(let i=0;i<120;i++){
+  let star=document.createElement("div");
+  star.className="star";
+  star.style.width=star.style.height=Math.random()*2+"px";
+  star.style.top=Math.random()*100+"vh";
+  star.style.left=Math.random()*100+"vw";
+  document.body.appendChild(star);
+}
+
+// Initial No button position
+window.onload=function(){
+  const btn=document.getElementById("noBtn");
+  btn.style.top="70%";
+  btn.style.left="55%";
+}
+
 function accept() {
-  document.getElementById("letter").style.display = "block";
+
+  // Background change effect
+  document.body.style.background =
+  "radial-gradient(circle, #2c003e, #000000)";
+
+  document.getElementById("letter").style.display="block";
+  document.getElementById("bgMusic").play();
+
   fireworks();
 }
 
 function moveButton() {
   var btn = document.getElementById("noBtn");
-  btn.style.top = Math.random() * window.innerHeight + "px";
-  btn.style.left = Math.random() * window.innerWidth + "px";
+
+  const maxX = window.innerWidth - btn.offsetWidth - 20;
+  const maxY = window.innerHeight - btn.offsetHeight - 20;
+
+  btn.style.top = Math.random()*maxY + "px";
+  btn.style.left = Math.random()*maxX + "px";
 }
 
 function fireworks() {
-  for(let i=0;i<50;i++){
-    let heart = document.createElement("div");
-    heart.innerHTML = "💖";
-    heart.className = "heart";
-    heart.style.left = Math.random()*100+"vw";
-    heart.style.animationDuration = (Math.random()*3+2)+"s";
+  for(let i=0;i<40;i++){
+    let heart=document.createElement("div");
+    heart.innerHTML="💖";
+    heart.className="heart";
+    heart.style.left=Math.random()*100+"vw";
+    heart.style.animationDuration=(Math.random()*3+2)+"s";
     document.body.appendChild(heart);
   }
 }
