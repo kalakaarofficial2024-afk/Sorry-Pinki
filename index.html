@@ -118,8 +118,8 @@ white-space:pre-line;
 <div id="intro">✨ A Special Moment Begins... 💖</div>
 
 <div class="container">
-<h1 class="glow">Sorry Pinki 💖</h1>
-<h2>Mujhe pata tha tum maaf kr dogi mujhe 😘</h2>
+<h1 id="mainTitle" class="glow">Sorry Pinki 💖</h1>
+<h2 id="subTitle">Kya tum mujhe maaf karogi? 🥺</h2>
 <button id="yesBtn" onclick="startLove()">Yes 💕</button>
 <button id="noBtn" onmouseover="moveNo()">No 😏</button>
 <div id="message"></div>
@@ -164,23 +164,29 @@ btn.style.top=Math.random()*80+"vh";
 }
 
 function startLove(){
+  // Buttons hide
+  document.getElementById("yesBtn").style.display="none";
+  document.getElementById("noBtn").style.display="none";
 
-document.getElementById("yesBtn").style.display="none";
-document.getElementById("noBtn").style.display="none";
+  // Change title and subtitle
+  document.getElementById("mainTitle").innerText="Thank You ❤️";
+  document.getElementById("subTitle").innerText="Mujhe maloom tha tum maaf krdogi 😘";
 
-document.body.style.background=
-"radial-gradient(circle at center,#1a0033 0%,#330033 40%,#ff4e88 100%)";
-document.body.classList.add("pulseBg");
+  // Background pulse
+  document.body.style.background=
+  "radial-gradient(circle at center,#1a0033 0%,#330033 40%,#ff4e88 100%)";
+  document.body.classList.add("pulseBg");
 
-let text="Pinki 💖\nMain dil se sorry hoon 🥺\nTum meri life ka best part ho ❤️";
-typeWriter(text,0);
+  // Optional typewriter message
+  let text="Tum meri life ka best part ho ❤️ and i Promise me kabhi tumhe hurt nahi krunga iss baat ko lekr💕";
+  typeWriter(text,0);
 }
 
 function typeWriter(text,i){
-if(i<text.length){
-document.getElementById("message").innerHTML+=text.charAt(i);
-setTimeout(()=>typeWriter(text,i+1),50);
-}
+  if(i<text.length){
+    document.getElementById("message").innerHTML+=text.charAt(i);
+    setTimeout(()=>typeWriter(text,i+1),50);
+  }
 }
 
 /* Cursor Sparkle */
