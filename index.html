@@ -84,21 +84,31 @@ animation:floatUp 10s linear infinite;
 100%{transform:translateY(-10vh);opacity:0;}
 }
 
-/* Shooting Star */
-.shoot{
-position:absolute;
-width:3px;
-height:120px;
-background:linear-gradient(transparent,white);
-animation:shooting 1.5s linear forwards;
-}
+function createShootingStar(){
 
-@keyframes shooting{
-0%{opacity:1;}
-100%{
-opacity:0;
-transform:translate(var(--x), var(--y));
-}
+let star=document.createElement("div");
+star.className="shoot";
+
+/* Always start from top-right area */
+let startX = window.innerWidth + Math.random()*200;  // little outside screen
+let startY = Math.random()*200;  // top area
+
+star.style.left = startX + "px";
+star.style.top = startY + "px";
+
+/* Always move to left-down */
+let moveX = - (window.innerWidth + 300);  
+let moveY = window.innerHeight + 300;
+
+star.style.setProperty('--x', moveX + "px");
+star.style.setProperty('--y', moveY + "px");
+
+/* Fixed diagonal angle */
+star.style.transform = "rotate(135deg)";
+
+document.body.appendChild(star);
+
+setTimeout(()=>star.remove(),1500);
 }
 
 /* Sparkle Cursor */
