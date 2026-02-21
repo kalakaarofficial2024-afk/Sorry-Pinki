@@ -1,162 +1,216 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-<title>Sorry Pinki 💖</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sorry Pinki 💖</title>
+    <style>
+        :root {
+            --pink: #ff4e88;
+            --glow: #ffb6c1;
+        }
 
-<style>
-body {
-  margin: 0;
-  height: 100vh;
-  text-align: center;
-  font-family: 'Segoe UI', sans-serif;
-  background: radial-gradient(circle at top, #1a1a2e, #16213e, #0f3460);
-  overflow: hidden;
-  color: white;
-}
+        body {
+            margin: 0;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: radial-gradient(circle at center, #1a1a2e 0%, #0f3460 100%);
+            overflow: hidden;
+            color: white;
+        }
 
-/* Stars */
-.star {
-  position: absolute;
-  width: 2px;
-  height: 2px;
-  background: white;
-  animation: twinkle 2s infinite alternate;
-}
+        /* Animated Stars Background */
+        .star {
+            position: absolute;
+            background: white;
+            border-radius: 50%;
+            opacity: 0.5;
+            animation: twinkle var(--duration) infinite alternate;
+        }
 
-@keyframes twinkle {
-  from {opacity: 0.3;}
-  to {opacity: 1;}
-}
+        @keyframes twinkle {
+            from { opacity: 0.3; transform: scale(1); }
+            to { opacity: 1; transform: scale(1.2); }
+        }
 
-.container {
-  margin-top: 15vh;
-  position: relative;
-  z-index: 2;
-}
+        .container {
+            position: relative;
+            z-index: 10;
+            background: rgba(255, 255, 255, 0.05);
+            padding: 40px;
+            border-radius: 20px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 0 30px rgba(0,0,0,0.5);
+            max-width: 90%;
+        }
 
-h1 {
-  font-size: 50px;
-  color: #ff4e88;
-}
+        h1 {
+            font-size: 3.5rem;
+            color: var(--pink);
+            margin-bottom: 10px;
+            text-shadow: 0 0 15px var(--pink);
+        }
 
-button {
-  padding: 15px 35px;
-  font-size: 20px;
-  border: none;
-  border-radius: 40px;
-  cursor: pointer;
-  margin: 15px;
-  transition: 0.3s;
-}
+        h2 {
+            font-weight: 300;
+            margin-bottom: 30px;
+        }
 
-#yesBtn {
-  background: #ff4e88;
-  color: white;
-}
+        .btn-group {
+            position: relative;
+            height: 100px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 20px;
+        }
 
-#yesBtn:hover {
-  transform: scale(1.1);
-}
+        button {
+            padding: 15px 35px;
+            font-size: 1.2rem;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: bold;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+        }
 
-#noBtn {
-  background: #555;
-  color: white;
-  position: absolute;
-}
+        #yesBtn {
+            background: var(--pink);
+            color: white;
+            z-index: 100;
+        }
 
-#playSong {
-  background: gold;
-  color: black;
-}
+        #yesBtn:hover {
+            transform: scale(1.1);
+            box-shadow: 0 0 20px var(--pink);
+        }
 
-#message {
-  margin-top: 30px;
-  font-size: 26px;
-  min-height: 120px;
-  white-space: pre-line;
-}
+        #noBtn {
+            background: #444;
+            color: #ccc;
+            position: absolute;
+        }
 
-.heart {
-  position: absolute;
-  font-size: 20px;
-  animation: float 6s linear infinite;
-}
+        #message {
+            margin-top: 30px;
+            font-size: 1.5rem;
+            line-height: 1.6;
+            min-height: 100px;
+            color: var(--glow);
+            text-shadow: 0 0 5px rgba(255,182,193,0.5);
+        }
 
-@keyframes float {
-  from {transform: translateY(100vh);}
-  to {transform: translateY(-10vh);}
-}
-</style>
+        .heart {
+            position: absolute;
+            pointer-events: none;
+            animation: float Up 5s linear forwards;
+            z-index: 5;
+        }
+
+        @keyframes floatUp {
+            0% { transform: translateY(100vh) rotate(0deg); opacity: 1; }
+            100% { transform: translateY(-10vh) rotate(360deg); opacity: 0; }
+        }
+    </style>
 </head>
-
 <body>
 
-<div class="container">
-  <h1>Sorry Pinki 💖</h1>
-  <h2>Kya tum mujhe maaf karogi? 🥺</h2>
+    <div class="container">
+        <h1 id="mainTitle">Sorry Pinki 💖</h1>
+        <h2 id="subTitle">Kya tum mujhe maaf karogi? 🥺</h2>
 
-  <button id="playSong">Play Love Song 🎵</button><br>
+        <div class="btn-group" id="actions">
+            <button id="yesBtn" onclick="startLove()">Yes 💕</button>
+            <button id="noBtn" onmouseover="moveButton()" onclick="moveButton()">No 😏</button>
+        </div>
 
-  <button id="yesBtn" onclick="startLove()">Yes 💕</button>
-  <button id="noBtn" onmouseover="moveButton()">No 😏</button>
+        <div id="message"></div>
+    </div>
 
-  <div id="message"></div>
-</div>
+    <div id="ytContainer" style="display:none;"></div>
 
-<div id="ytContainer" style="position:absolute; width:0; height:0; overflow:hidden;"></div>
+    <script>
+        // Generate Stars
+        for (let i = 0; i < 150; i++) {
+            let star = document.createElement("div");
+            star.className = "star";
+            let size = Math.random() * 3 + "px";
+            star.style.width = size;
+            star.style.height = size;
+            star.style.top = Math.random() * 100 + "vh";
+            star.style.left = Math.random() * 100 + "vw";
+            star.style.setProperty('--duration', (Math.random() * 3 + 2) + 's');
+            document.body.appendChild(star);
+        }
 
-<script>
+        let yesScale = 1;
+        let noClicks = 0;
 
-/* Stars */
-for(let i=0;i<120;i++){
-  let star=document.createElement("div");
-  star.className="star";
-  star.style.top=Math.random()*100+"vh";
-  star.style.left=Math.random()*100+"vw";
-  document.body.appendChild(star);
-}
+        function moveButton() {
+            let btn = document.getElementById("noBtn");
+            let yesBtn = document.getElementById("yesBtn");
 
-/* Play Song */
-document.getElementById("playSong").addEventListener("click", function(){
-  document.getElementById("ytContainer").innerHTML =
-    '<iframe src="https://www.youtube.com/embed/5r5mW0XvFJ8?autoplay=1&loop=1&playlist=5r5mW0XvFJ8" allow="autoplay"></iframe>';
-  this.style.display="none";
-});
+            // Make the No button run away
+            let x = Math.random() * (window.innerWidth - btn.offsetWidth);
+            let y = Math.random() * (window.innerHeight - btn.offsetHeight);
+            
+            btn.style.left = x + "px";
+            btn.style.top = y + "px";
 
-function moveButton() {
-  var btn = document.getElementById("noBtn");
-  btn.style.top = Math.random() * window.innerHeight + "px";
-  btn.style.left = Math.random() * window.innerWidth + "px";
-}
+            // Make the Yes button bigger every time she tries to say No!
+            yesScale += 0.15;
+            yesBtn.style.transform = `scale(${yesScale})`;
+            noClicks++;
 
-function startLove() {
-  let text = "Pinki...\n\nTum meri life ka sabse beautiful part ho 💕\nMain dil se sorry hoon 🥺\nPlease mujhe maaf kar do ❤️\nForever yours 💖";
-  document.getElementById("message").innerHTML = "";
-  typeWriter(text, 0);
-  fireworks();
-}
+            if(noClicks > 5) {
+                btn.innerHTML = "Ab toh maan jao! 🙄";
+            }
+        }
 
-function typeWriter(text, i) {
-  if (i < text.length) {
-    document.getElementById("message").innerHTML += text.charAt(i);
-    setTimeout(function() {
-      typeWriter(text, i + 1);
-    }, 50);
-  }
-}
+        function startLove() {
+            // 1. Play Song (Using your specified ID)
+            const videoId = "5r5mW0XvFJ8";
+            document.getElementById("ytContainer").innerHTML = 
+                `<iframe src="https://www.youtube.com/embed/${videoId}?autoplay=1&loop=1&playlist=${videoId}" allow="autoplay"></iframe>`;
 
-function fireworks() {
-  for(let i=0;i<35;i++){
-    let heart = document.createElement("div");
-    heart.innerHTML = "💖";
-    heart.className = "heart";
-    heart.style.left = Math.random()*100+"vw";
-    heart.style.animationDuration = (Math.random()*4+3)+"s";
-    document.body.appendChild(heart);
-  }
-}
+            // 2. Hide Buttons
+            document.getElementById("actions").style.display = "none";
+            document.getElementById("subTitle").style.display = "none";
+            
+            // 3. Start Animation and Text
+            let text = "Pinki...\n\nTum meri life ka sabse beautiful part ho 💕\nMain dil se sorry hoon 🥺\nPlease mujhe maaf kar do ❤️\n\nForever yours 💖";
+            typeWriter(text, 0);
+            setInterval(createHeart, 300);
+        }
 
-</script>
+        function typeWriter(text, i) {
+            if (i < text.length) {
+                let char = text.charAt(i);
+                document.getElementById("message").innerHTML += (char === "\n") ? "<br>" : char;
+                setTimeout(() => typeWriter(text, i + 1), 60);
+            }
+        }
 
+        function createHeart() {
+            const heart = document.createElement("div");
+            const icons = ["💖", "💗", "🌸", "✨", "🥰"];
+            heart.innerHTML = icons[Math.floor(Math.random() * icons.length)];
+            heart.className = "heart";
+            heart.style.left = Math.random() * 100 + "vw";
+            heart.style.fontSize = (Math.random() * 20 + 20) + "px";
+            heart.style.animationDuration = (Math.random() * 3 + 2) + "s";
+            document.body.appendChild(heart);
+
+            // Clean up hearts after they float away
+            setTimeout(() => heart.remove(), 5000);
+        }
+    </script>
 </body>
 </html>
