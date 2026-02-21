@@ -86,6 +86,14 @@ button {
 
 <body>
 
+<!-- Hidden YouTube Background Song -->
+<div style="position:absolute; width:0; height:0; overflow:hidden;">
+  <iframe 
+    src="https://www.youtube.com/embed/5r5mW0XvFJ8?autoplay=1&loop=1&playlist=5r5mW0XvFJ8"
+    allow="autoplay">
+  </iframe>
+</div>
+
 <div class="container">
   <h1>Sorry Pinki 💖</h1>
   <h2>Kya tum mujhe maaf karogi? 🥺</h2>
@@ -96,16 +104,9 @@ button {
   <div id="message"></div>
 </div>
 
-<!-- YouTube Background Music -->
-<iframe width="0" height="0"
-src="https://www.youtube.com/embed/5r5mW0XvFJ8?autoplay=1&loop=1&playlist=5r5mW0XvFJ8"
-frameborder="0"
-allow="autoplay">
-</iframe>
-
 <script>
 
-/* Stars generate */
+/* Generate Stars */
 for(let i=0;i<120;i++){
   let star=document.createElement("div");
   star.className="star";
@@ -122,6 +123,7 @@ function moveButton() {
 
 function startLove() {
   let text = "Pinki...\n\nTum meri life ka sabse beautiful part ho 💕\nMain dil se sorry hoon 🥺\nPlease mujhe maaf kar do ❤️\nForever yours 💖";
+  document.getElementById("message").innerHTML = "";
   typeWriter(text, 0);
   fireworks();
 }
