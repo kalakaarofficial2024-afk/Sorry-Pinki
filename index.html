@@ -206,20 +206,20 @@ function typeWriter(text,i){
   }
 }
 
-  // Cursor Blinking Stars
-  for(let i=0;i<2;i++){
-    let star=document.createElement("div");
-    star.className="star";
-    let size=Math.random()*3+1;
-    star.style.width = size + "px";
-    star.style.height = size + "px";
-    star.style.left = (e.pageX + (Math.random()*30-15)) + "px";
-    star.style.top = (e.pageY + (Math.random()*30-15)) + "px";
-    star.style.animationDuration = (Math.random()*1+0.5)+"s";
-    star.style.animationDelay = "0s";
-    document.body.appendChild(star);
-    setTimeout(()=>star.remove(),1500);
-  }
+/* Cursor-following stars & sparkles */
+document.addEventListener("mousemove", function(e){
+  // Cursor sparkle
+  let sparkle=document.createElement("div");
+  sparkle.className="star"; // reusing star class
+  let size=Math.random()*3+1;
+  sparkle.style.width=size+"px";
+  sparkle.style.height=size+"px";
+  sparkle.style.left=(e.pageX + (Math.random()*20-10))+"px";
+  sparkle.style.top=(e.pageY + (Math.random()*20-10))+"px";
+  sparkle.style.animationDuration=(Math.random()*1+0.5)+"s";
+  sparkle.style.animationDelay="0s";
+  document.body.appendChild(sparkle);
+  setTimeout(()=>sparkle.remove(),1000);
 });
 </script>
 
