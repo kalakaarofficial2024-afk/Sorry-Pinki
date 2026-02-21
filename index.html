@@ -3,192 +3,181 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sorry Pinki 💖</title>
+    <title>For Pinki 💖</title>
     <style>
         body {
             margin: 0;
+            padding: 0;
             height: 100vh;
-            text-align: center;
-            font-family: 'Segoe UI', sans-serif;
-            /* Wapis wahi Night Theme */
-            background: radial-gradient(circle at top, #1a1a2e, #16213e, #0f3460);
-            overflow: hidden;
+            background: radial-gradient(circle at top, #0b1026, #16213e, #000000);
             color: white;
+            font-family: 'Arial', sans-serif;
+            overflow: hidden;
             display: flex;
             justify-content: center;
             align-items: center;
         }
 
-        /* Stars */
+        /* Stars Background */
         .star {
             position: absolute;
-            width: 2px;
-            height: 2px;
             background: white;
             border-radius: 50%;
-            animation: twinkle 2s infinite alternate;
+            opacity: 0.5;
+            animation: pulse 2s infinite alternate;
         }
 
-        @keyframes twinkle {
-            from { opacity: 0.3; }
-            to { opacity: 1; }
+        @keyframes pulse {
+            from { opacity: 0.2; transform: scale(0.8); }
+            to { opacity: 1; transform: scale(1.2); }
         }
 
-        .container {
-            position: relative;
-            z-index: 2;
-            width: 90%;
-            max-width: 600px;
+        .card {
+            z-index: 10;
+            text-align: center;
+            padding: 30px;
+            border-radius: 20px;
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 0 40px rgba(255, 78, 136, 0.2);
+            width: 320px;
         }
 
         h1 {
-            font-size: 50px;
             color: #ff4e88;
-            text-shadow: 0 0 10px rgba(255, 78, 136, 0.5);
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            text-shadow: 0 0 10px #ff4e88;
         }
 
-        h2 {
-            font-weight: 300;
-            margin-bottom: 20px;
-        }
-
-        /* Button Styling */
-        .btn-wrapper {
-            position: relative;
-            height: 150px; /* Space for moving button */
+        .btn-container {
+            margin-top: 30px;
             display: flex;
             justify-content: center;
-            align-items: center;
+            gap: 20px;
         }
 
         button {
-            padding: 15px 35px;
-            font-size: 20px;
+            padding: 12px 25px;
+            font-size: 18px;
+            border-radius: 30px;
             border: none;
-            border-radius: 40px;
             cursor: pointer;
-            transition: transform 0.2s;
             font-weight: bold;
+            transition: 0.2s;
         }
 
         #yesBtn {
             background: #ff4e88;
             color: white;
-            box-shadow: 0 5px 15px rgba(255, 78, 136, 0.4);
-            z-index: 10;
+            box-shadow: 0 0 20px rgba(255, 78, 136, 0.5);
         }
 
         #noBtn {
-            background: #555;
+            background: #444;
             color: white;
-            position: absolute; /* Needed for moving */
-            left: 60%; /* Initial position */
-            transition: all 0.2s ease;
+            position: fixed; /* Pure screen par kahin bhi bhagega */
+            z-index: 999;
         }
 
         #message {
-            margin-top: 30px;
-            font-size: 24px;
-            min-height: 120px;
-            white-space: pre-line;
+            margin-top: 20px;
+            font-size: 20px;
             color: #ffb6c1;
             line-height: 1.5;
+            white-space: pre-line;
         }
 
-        .heart {
+        .emoji {
             position: absolute;
-            font-size: 25px;
             pointer-events: none;
-            animation: floatUp 5s linear forwards;
+            animation: fly 4s linear forwards;
         }
 
-        @keyframes floatUp {
-            from { transform: translateY(100vh) rotate(0deg); opacity: 1; }
-            to { transform: translateY(-10vh) rotate(360deg); opacity: 0; }
+        @keyframes fly {
+            0% { transform: translateY(100vh) scale(0); opacity: 1; }
+            100% { transform: translateY(-10vh) scale(1.5); opacity: 0; }
         }
     </style>
 </head>
 <body>
 
-<div class="container">
-    <div id="main-content">
-        <h1>Sorry Pinki 💖</h1>
-        <h2 id="question">Kya tum mujhe maaf karogi? 🥺</h2>
-
-        <div class="btn-wrapper">
-            <button id="yesBtn" onclick="startLove()">Yes 💕</button>
-            <button id="noBtn" onmouseover="moveButton()" onclick="moveButton()">No 😏</button>
+    <div class="card" id="mainCard">
+        <h1 id="title">Sorry Pinki 💖</h1>
+        <p id="sub">Kya tumne mujhe maaf kiya?</p>
+        
+        <div class="btn-container">
+            <button id="yesBtn" onclick="accepted()">Yes 💕</button>
+            <button id="noBtn" onmouseover="moveNo()" onclick="moveNo()">No 😏</button>
         </div>
+        <div id="message"></div>
     </div>
 
-    <div id="message"></div>
-</div>
+    <div id="musicBox"></div>
 
-<div id="ytContainer" style="display:none;"></div>
-
-<script>
-    // Create Stars Background
-    for(let i=0; i<150; i++){
-        let star = document.createElement("div");
-        star.className = "star";
-        star.style.top = Math.random() * 100 + "vh";
-        star.style.left = Math.random() * 100 + "vw";
-        star.style.animationDelay = Math.random() * 2 + "s";
-        document.body.appendChild(star);
-    }
-
-    // Move No Button within visible bounds
-    function moveButton() {
-        var btn = document.getElementById("noBtn");
-        
-        // Calculate safe area (avoiding screen edges)
-        var padding = 50;
-        var maxX = window.innerWidth - btn.offsetWidth - padding;
-        var maxY = window.innerHeight - btn.offsetHeight - padding;
-        
-        var randomX = Math.max(padding, Math.floor(Math.random() * maxX));
-        var randomY = Math.max(padding, Math.floor(Math.random() * maxY));
-
-        btn.style.position = "fixed"; // Switch to fixed to move anywhere on screen
-        btn.style.left = randomX + "px";
-        btn.style.top = randomY + "px";
-    }
-
-    function startLove() {
-        // 1. Play the Song (Your ID: 5r5mW0XvFJ8)
-        const videoId = "5r5mW0XvFJ8";
-        document.getElementById("ytContainer").innerHTML = 
-            `<iframe src="https://www.youtube.com/embed/${videoId}?autoplay=1&loop=1&playlist=${videoId}" allow="autoplay"></iframe>`;
-
-        // 2. Hide Title and Buttons
-        document.getElementById("main-content").style.display = "none";
-
-        // 3. Show Heart Animation & Message
-        let text = "Pinki...\n\nTum meri life ka sabse beautiful part ho 💕\nMain dil se sorry hoon 🥺\nPlease mujhe maaf kar do ❤️\n\nForever yours 💖";
-        typeWriter(text, 0);
-        setInterval(createFloatingHeart, 300);
-    }
-
-    function typeWriter(text, i) {
-        if (i < text.length) {
-            document.getElementById("message").innerHTML += text.charAt(i);
-            setTimeout(function() {
-                typeWriter(text, i + 1);
-            }, 60);
+    <script>
+        // Generate stars
+        for (let i = 0; i < 100; i++) {
+            let star = document.createElement("div");
+            star.className = "star";
+            star.style.width = star.style.height = Math.random() * 3 + "px";
+            star.style.left = Math.random() * 100 + "vw";
+            star.style.top = Math.random() * 100 + "vh";
+            document.body.appendChild(star);
         }
-    }
 
-    function createFloatingHeart() {
-        let heart = document.createElement("div");
-        heart.innerHTML = "💖";
-        heart.className = "heart";
-        heart.style.left = Math.random() * 100 + "vw";
-        heart.style.animationDuration = (Math.random() * 3 + 2) + "s";
-        document.body.appendChild(heart);
-        
-        setTimeout(() => heart.remove(), 5000);
-    }
-</script>
+        // NO button movement logic
+        function moveNo() {
+            const btn = document.getElementById("noBtn");
+            // Screen boundaries minus button size
+            const x = Math.random() * (window.innerWidth - btn.offsetWidth - 40) + 20;
+            const y = Math.random() * (window.innerHeight - btn.offsetHeight - 40) + 20;
+            
+            btn.style.left = x + "px";
+            btn.style.top = y + "px";
+        }
 
+        // YES button logic
+        function accepted() {
+            // 1. Play Song (YouTube Embed with Autoplay)
+            const musicBox = document.getElementById("musicBox");
+            musicBox.innerHTML = `<iframe width="0" height="0" src="https://www.youtube.com/embed/5r5mW0XvFJ8?autoplay=1" frameborder="0" allow="autoplay"></iframe>`;
+
+            // 2. Hide Buttons and change UI
+            document.getElementById("yesBtn").style.display = "none";
+            document.getElementById("noBtn").style.display = "none";
+            document.getElementById("sub").style.display = "none";
+            document.getElementById("title").innerHTML = "I Knew It! 🥰";
+
+            // 3. Type Message
+            const msg = "Pinki...\nTum meri life ka sabse haseen hissa ho.\nSorry for everything! ❤️\nAb smile karo! 😊";
+            let i = 0;
+            const target = document.getElementById("message");
+            
+            function type() {
+                if (i < msg.length) {
+                    target.innerHTML += msg.charAt(i);
+                    i++;
+                    setTimeout(type, 50);
+                }
+            }
+            type();
+
+            // 4. Start celebration emojis
+            setInterval(celebrate, 300);
+        }
+
+        function celebrate() {
+            const e = document.createElement("div");
+            const list = ["💖", "🌸", "✨", "💕", "🎀"];
+            e.className = "emoji";
+            e.innerHTML = list[Math.floor(Math.random() * list.length)];
+            e.style.left = Math.random() * 100 + "vw";
+            e.style.fontSize = Math.random() * 20 + 20 + "px";
+            document.body.appendChild(e);
+            setTimeout(() => e.remove(), 4000);
+        }
+    </script>
 </body>
 </html>
